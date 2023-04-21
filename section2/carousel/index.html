@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <section class="carousel">
+      <div class="carousel__main">
+        <!-- :key 属性が必要な理由は、Vue.js が要素を更新する際に、どの要素がどの要素と対応するかを特定するためです。この場合、カルーセル内で表示される画像が変更されるたびに、Vue.js は画像の ID
+        を使用して、前に表示されていた画像を新しい画像に置き換えます。
+
+        :key 属性を指定しない場合、Vue.js は要素を一意に特定できず、トランジションが正常に機能しなくなります。また、:key 属性を使用することで、Vue.js が要素を更新する際に、DOM
+        の再描画を最適化することができます。つまり、同じ ID の画像が連続して表示される場合、Vue.js は DOM 内の要素を再利用することができます。これにより、パフォーマンスが向上し、不要な DOM 更新が行われるのを防ぐことができます。 -->
+        <transition name="active">
+          <div class="carousel__main"
+            :key="images[active].id"
+            v-show="active === images[active].id">
+            <img :src="images[active].img">
+          </div>
+        </transition>
+      </div>
+      <div @click="prev" class="carousel__prev"><i class="fa-solid fa-chevron-left"></i></div>
+      <div @click="next" class="carousel__next"><i class="fa-solid fa-chevron-right"></i></div>
+      <ul class="carousel__thumbnails">
+        <li v-for="image in images"
+        :key="image.id"
+        :class="{current: active === image.id}"
+        @click="current(image.id)">
+        <img :src="image.img">
+      </li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          active: 0,
+          images: [
+            {id: 0, img: 'images/image000.jpg'},
+            {id: 1, img: 'images/image001.jpg'},
+            {id: 2, img: 'images/image002.jpg'},
+            {id: 3, img: 'images/image003.jpg'},
+            {id: 4, img: 'images/image004.jpg'},
+            {id: 5, img: 'images/image005.jpg'},
+            {id: 6, img: 'images/image006.jpg'},
+            {id: 7, img: 'images/image007.jpg'},
+          ]
+        }
+      },
+      methods: {
+        current(id) {
+          this.active = id
+        },
+        prev() {
+          if (this.active <= 0) {
+            this.active = this.images.length - 1
+          } else {
+            this.active--
+          }
+        },
+        next() {
+          if (this.active >= this.images.length -1) {
+            this.active = 0
+          } else {
+            this.active++
+          }
+        }
+      },
+      mounted() {
+        let that = this
+        setInterval(() => {
+          that.next()
+        }, 4000);
+      }
+    })
+  </script>
+</body>
+</html>

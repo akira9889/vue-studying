@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css@1.0.15/destyle.css" />
+  <link rel="stylesheet" href="app2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="carousel">
+      <div class="carousel__main">
+        <transition name="carousel" >
+          <div class="carousel__img " :key="images[active].id" v-show="active === images[active].id">
+            <img :src="images[active].src">
+          </div>
+        </transition>
+      </div>
+    </div>
+
+    <div class="thumbnail">
+      <ul class="thumbnail__list">
+        <li v-for="image in images"
+            :key="image.id"
+            @click="current(image.id);clicked()"
+            :class="['thumbnail__item', {current: active === image.id}]">
+          <img :src="image.src">
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          active: 0,
+          images:[
+            {id: 0, src: 'images/image000.jpg'},
+            {id: 1, src: 'images/image001.jpg'},
+            {id: 2, src: 'images/image002.jpg'},
+            {id: 3, src: 'images/image003.jpg'},
+            {id: 4, src: 'images/image004.jpg'},
+            {id: 5, src: 'images/image005.jpg'},
+            {id: 6, src: 'images/image006.jpg'},
+            {id: 7, src: 'images/image007.jpg'},
+          ],
+          isclicked: false,
+        }
+      },
+      methods: {
+        current(id) {
+          this.active = id;
+        },
+        next() {
+          if (this.active > this.images.length) {
+            this.active = 0
+          }
+          this.active++
+        },
+        clicked() {
+          this.isclicked = true
+        }
+      },
+      mounted() {
+        let that = this
+        setInterval(() => {
+          if (!that.isclicked) {
+            that.next();
+          }
+        }, 2000);
+      }
+    })
+  </script>
+</body>
+</html>
