@@ -4,13 +4,19 @@
       <router-link to="/" exact active-class="link--active">Home</router-link> |
       <router-link to="/about" exact active-class="link--active">About</router-link> |
       <router-link to="/book" exact active-class="link--active">BookList</router-link> |
-      <router-link to="/item/1" exact active-class="link--active">Item</router-link>
+      <router-link to="/item/1" exact active-class="link--active">Item</router-link> |
+      <router-link to="/user/profile" exact active-class="link--active">User</router-link> |
     </nav>
-    <router-view/>
+    <div class="blue-b">
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <style>
+.blue-b {
+  border: 1px solid blue;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -29,6 +35,6 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #03ff18;
 }
 </style>
